@@ -176,7 +176,7 @@ endif
 syn case match
 
 " Superglobals
-syn keyword phpSuperglobals GLOBALS _GET _POST _REQUEST _FILES _COOKIE _SERVER _SESSION _ENV HTTP_RAW_POST_DATA php_errormsg http_response_header argc argv contained
+syn keyword phpSuperglobals GLOBALS _INPUT _GET _POST _REQUEST _FILES _COOKIE _SERVER _SESSION _ENV HTTP_RAW_POST_DATA php_errormsg http_response_header argc argv contained
 
 " Magic Constants
 syn keyword phpMagicConstants __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ __TRAIT__ __METHOD__ __NAMESPACE__ contained
@@ -495,7 +495,7 @@ endif
 
 " }}}
 
-" The following is needed afterall it seems.
+" The following is needed after all it seems.
 syntax keyword phpClasses containedin=ALLBUT,phpComment,phpDocComment,phpStringDouble,phpStringSingle,phpIdentifier,phpMethodsVar
 
 " Control Structures
@@ -538,11 +538,11 @@ syn match phpVarSelector    "\$"  contained display
 " highlight static and object variables inside strings
 syn match phpMethodsVar     "\%(->\|::$\?\)\h\w*" contained contains=phpMethods,phpMemberSelector,phpIdentifier display containedin=phpStringDouble
 syn match phpMethodsVar     "\%(->\|::\%($\)\@!\)\s*\h\w*\s*("me=e-1 skipwhite skipempty contained contains=phpMemberSelector,phpMethod display containedin=phpStringDouble
-syn match phpMethod /\h\w*/
+syn match phpMethod /\h\w*/ contains=@Spell
 syn match phpSplatOperator  "\.\.\." contained display
 
 " Identifier
-syn match  phpIdentifier         "$\h\w*"  contained contains=phpSuperglobals,phpVarSelector display
+syn match  phpIdentifier         "$\h\w*"  contained contains=@Spell,phpSuperglobals,phpVarSelector display
 syn match  phpIdentifierSimply   "${\h\w*}"  contains=phpOperator,phpParent  contained display
 syn region phpIdentifierComplex  matchgroup=phpParent start="{\$"rs=e-1 end="}"  contains=phpIdentifier,phpMemberSelector,phpVarSelector,phpIdentifierArray contained extend
 syn region phpIdentifierArray    matchgroup=phpParent start="\[" end="]" contains=@phpClInside contained
@@ -581,7 +581,7 @@ endif
 
 " Todo
 syn case match
-syn keyword phpTodo TODO FIXME XXX NOTE contained
+syn keyword phpTodo TODO Todo todo FIXME Fixme fixme XXX NOTE Note note contained
 syn case ignore
 
 " Comment
@@ -661,17 +661,17 @@ else
 endif
 
 " Static classes
-syn match phpStaticClasses "\v\h\w+(::)@=" contained display
+syn match phpStaticClasses "\v\h\w+(::)@=" contained contains=@Spell display
 
 " Class name
 syn keyword phpKeyword class contained
       \ nextgroup=phpClass skipwhite skipempty
-syn match phpClass /\h\w*/
+syn match phpClass /\h\w*/ contains=@Spell
 
 " Class extends
 syn keyword phpKeyword extends contained
       \ nextgroup=phpClassExtends skipwhite skipempty
-syn match phpClassExtends /\(\\\|\h\w*\)*\h\w*/
+syn match phpClassExtends /\(\\\|\h\w*\)*\h\w*/ contains=@Spell
 
 " Class implements
 syntax keyword phpKeyword implements contained
@@ -684,17 +684,17 @@ syntax match phpClassDelimiter contained
 " use statement
 syn keyword phpInclude use contained
       \ nextgroup=phpUseFunction,phpUseClass skipwhite skipempty
-syn match phpUseFunction /function\_s\+\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseKeyword
+syn match phpUseFunction /function\_s\+\(\\\|\h\w*\)*\h\w*/ contained contains=@Spell,phpUseKeyword
       \ nextgroup=phpUseAlias skipwhite skipempty
-syn match phpUseClass /\(function\_s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained
+syn match phpUseClass /\(function\_s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained contains=@Spell
       \ nextgroup=phpUseAlias skipwhite skipempty
-syn match phpUseAlias /as\_s\+\h\w*/ contained contains=phpUseKeyword
+syn match phpUseAlias /as\_s\+\h\w*/ contained contains=@Spell,phpUseKeyword
 syn match phpUseKeyword /\(function\|as\)\_s\+/ contained contains=phpKeyword
 
 " Function name
 syn keyword phpKeyword function contained
       \ nextgroup=phpFunction skipwhite skipempty
-syn match phpFunction /\h\w*/
+syn match phpFunction /\h\w*/ contains=@Spell
 
 " Clusters
 syn cluster phpClConst contains=phpFunctions,phpClasses,phpStaticClasses,phpIdentifier,phpStatement,phpKeyword,phpOperator,phpSplatOperator,phpStringSingle,phpStringDouble,phpBacktick,phpNumber,phpType,phpBoolean,phpStructure,phpMethodsVar,phpConstants,phpException,phpSuperglobals,phpMagicConstants,phpServerVars
